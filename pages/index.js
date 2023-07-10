@@ -21,18 +21,21 @@ const localStorageItems = {
   setItem: function (key, value, expiry) {
     const newValue = {
       value,
-      expiry: Date.now() + expiry
+      expiry: new Date(expiry).getTime()
     };
     localStorage.setItem(key, JSON.stringify(newValue));
   },
   getItem: function (key) {
     const data = localStorage.getItem(key);
-    const parsedData = JSON.parse(data);
-    if (Date.now() >= parsedData?.expiry) {
-      localStorage.removeItem(key);
-      return;
+    if (data) {
+      const parsedData = JSON.parse(data);
+      if (Date.now() >= parsedData?.expiry) {
+        localStorage.removeItem(key);
+        return;
+      }
+      return parsedData?.value;
     }
-    return parsedData?.value;
+    return null;
   }
 };
 
@@ -58,8 +61,8 @@ const ProductList = () => {
     setLoader(true);
     try {
       const res = await axios.get("/api/getToken");
-      const authToken = res.data;
-      localStorageItems.setItem("token", authToken?.token, 5000);
+      const { token, token_expire_time } = res.data;
+      localStorageItems.setItem("token", token, token_expire_time);
     } catch (e) {
       toast.error(e.message);
     } finally {

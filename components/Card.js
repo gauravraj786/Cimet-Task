@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import parse from "html-react-parser";
+import DOMPurify from "dompurify";
 import {
   FaInfoCircle,
   FaLightbulb,
@@ -171,6 +172,9 @@ const FooterConatiner = styled.section`
   justify-content: space-between;
   background: #f5f5f5;
   padding: 20px 0 20px 20px;
+  section {
+    width: 80%;
+  }
   @media (max-width: 800px) {
     flex-direction: column;
     align-items: center;
@@ -178,7 +182,7 @@ const FooterConatiner = styled.section`
     padding-left: 8px;
 
     section {
-      width: 100% !important;
+      width: 100%;
     }
   }
   ${FeaturesContainer} {
@@ -210,6 +214,11 @@ const FooterBtn = styled.button`
 `;
 
 export const Card = ({ product }) => {
+  const parsedHtml = (html) => {
+    const sanitizedHTML = DOMPurify.sanitize(html);
+    const parsedHTML = parse(sanitizedHTML);
+    return parsedHTML;
+  };
   const {
     dmo_percentage,
     plan_name_below_data,
@@ -254,26 +263,30 @@ export const Card = ({ product }) => {
           <FeaturesContainer>
             {view_benefit && (
               <span>
-                <FaCheck style={{ color: "#20327a" }} /> {parse(view_benefit)}
+                <FaCheck style={{ color: "#20327a" }} />{" "}
+                {parsedHtml(view_benefit)}
               </span>
             )}
             {view_bonus && (
               <span>
-                <FaCheck style={{ color: "#20327a" }} /> {parse(view_bonus)}
+                <FaCheck style={{ color: "#20327a" }} />{" "}
+                {parsedHtml(view_bonus)}
               </span>
             )}
             {view_contract && (
               <span>
-                <FaCheck style={{ color: "#20327a" }} /> {parse(view_contract)}
+                <FaCheck style={{ color: "#20327a" }} />{" "}
+                {parsedHtml(view_contract)}
               </span>
             )}
             {view_exit_fee && (
               <span>
-                <FaCheck style={{ color: "#20327a" }} /> {parse(view_exit_fee)}
+                <FaCheck style={{ color: "#20327a" }} />{" "}
+                {parsedHtml(view_exit_fee)}
               </span>
             )}
           </FeaturesContainer>
-          <StandardFeedBox>{parse(view_discount)}</StandardFeedBox>
+          <StandardFeedBox>{parsedHtml(view_discount)}</StandardFeedBox>
         </HeaderDeatils>
         <EstimatedCost>
           <EstimatedCostHeader>
@@ -293,13 +306,13 @@ export const Card = ({ product }) => {
           </EstimatedCostDetails>
         </EstimatedCost>
       </HeaderContainer>
-      <DetailsConatiner>{parse(dmo_content.Ausgrid)}</DetailsConatiner>
+      <DetailsConatiner>{parsedHtml(dmo_content.Ausgrid)}</DetailsConatiner>
       <FooterConatiner>
-        <section style={{ width: "80%" }}>
+        <section>
           <FeaturesContainer>
             <span>
               <FaCheck style={{ color: "#20327a" }} />
-              {parse(cooling_off_period)}
+              {parsedHtml(cooling_off_period)}
             </span>
             <span>
               <FaCheck style={{ color: "#20327a" }} />{" "}
@@ -312,11 +325,11 @@ export const Card = ({ product }) => {
           </FeaturesContainer>
           <section>
             <>Why Us: </>
-            {parse(why_us)}
+            {parsedHtml(why_us)}
           </section>
           <TermsCondition>
             <span>{`^`}</span>
-            {parse(terms_condition)}
+            {parsedHtml(terms_condition)}
           </TermsCondition>
         </section>
         <FooterBtn>Connect Online Today</FooterBtn>
