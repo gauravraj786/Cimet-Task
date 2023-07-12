@@ -1,4 +1,4 @@
-import Api from "../../utils/Api";
+import Api from '../../api/Api';
 
 export default async function apiRequest(req, res) {
   try {
@@ -6,7 +6,7 @@ export default async function apiRequest(req, res) {
     if (!token) {
       return res.status(400).json({
         success: false,
-        message: "Token not found"
+        message: 'Token not found',
       });
     }
 
@@ -14,12 +14,12 @@ export default async function apiRequest(req, res) {
     const { data } = await apiClient.getPlanList(token);
     res.status(200).json({
       success: true,
-      data: data
+      data: data,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Internal server error"
+      message: 'Internal server error',
     });
   }
 }

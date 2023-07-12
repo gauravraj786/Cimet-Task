@@ -1,4 +1,4 @@
-import Api from "../../utils/Api";
+import Api from '../../api/Api';
 
 export default async function apiRequest(req, res) {
   const apiClient = new Api();
@@ -8,12 +8,12 @@ export default async function apiRequest(req, res) {
     res.status(200).json(data);
   } catch (error) {
     const statusCode = error.statusCode || 500;
-    const errorMessage = error.message || "Internal Server Error";
+    const errorMessage = error.message || 'Internal Server Error';
 
     res.status(statusCode).json({
       error: {
-        message: errorMessage
-      }
+        message: errorMessage,
+      },
     });
   }
 }

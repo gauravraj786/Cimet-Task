@@ -1,0 +1,11 @@
+export const royalBlue = '#2f5ea1';
+export const white = '#fff';
+export const whiteSmoke = '#f5f5f5';
+export const dodgerBlue = '#0186f7';
+export const powderBlue = '#deeff1';
+export const cyan = '#cfe7ea';
+export const darkBlue = '#20327a';
+export const skyBlue = '#3b74a1';
+export const gray = '#76797f';
+export const dimGray = '#4a4b4d';
+export const midnightBlue = '#1a2b75';
